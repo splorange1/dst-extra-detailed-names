@@ -10,12 +10,12 @@ local GEM_SYMBOLS = {
  }
 
  local GEM_NAMES = {
-    greengem       = "Green Gem",
-    redgem         = "Red Gem",
-    bluegem        = "Blue Gem",
-    yellowgem      = "Yellow Gem",
-    orangegem      = "Orange Gem",
-    purplegem      = "Purple Gem",
+    greengem       = "Green Gemmed",
+    redgem         = "Red Gemmed",
+    bluegem        = "Blue Gemmed",
+    yellowgem      = "Yellow Gemmed",
+    orangegem      = "Orange Gemmed",
+    purplegem      = "Purple Gemmed",
     nightmarefuel  = "Nightmare Fuel",
  }
 
