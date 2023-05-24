@@ -19,7 +19,7 @@ local GEM_SYMBOLS = {
     nightmarefuel  = "Nightmare Fuel",
  }
 
-local setGemName = function(inst)
+local function setGemName(inst)
     inst.nameoverride = nil
     local swap, gemSymbol = inst.AnimState:GetSymbolOverride("swap_gem")
     local gemPrefab = gemSymbol and GEM_SYMBOLS[tostring(gemSymbol)] or "nightmarefuel"
