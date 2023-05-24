@@ -19,20 +19,20 @@ local GEM_SYMBOLS = {
     nightmarefuel  = "Nightmare Fuel",
  }
 
-local function setGemName(inst)
-    inst.nameoverride = nil
+local function GetGemName(inst)
     local swap, gemSymbol = inst.AnimState:GetSymbolOverride("swap_gem")
     local gemPrefab = gemSymbol and GEM_SYMBOLS[tostring(gemSymbol)] or "nightmarefuel"
     return GEM_NAMES[gemPrefab]
 end
 
 local function DisplayNameFn(inst)
-    return setGemName(inst).." Ancient Statue"
+    return GetGemName(inst).." Ancient Statue"
 end
 
  for i,prefab in ipairs(ruinsstatues) do
     AddPrefabPostInit(prefab, function(inst)
         inst:DoTaskInTime(0, function()
+            inst.nameoverride = nil
             inst.displaynamefn = DisplayNameFn
         end)
     end)
