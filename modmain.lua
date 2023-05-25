@@ -1,3 +1,8 @@
+local ruins_statue_config = GetModConfigData("ruins_statue_config")
+local archive_fountain_config = GetModConfigData("archive_fountain_config")
+
+----------- ANCIENT STATUES -----------
+
 local ruinsstatues = {"ruins_statue_head", "ruins_statue_head_nogem", "ruins_statue_mage", "ruins_statue_mage_nogem"}
 
 local GEM_SYMBOLS = {
@@ -19,6 +24,28 @@ local GEM_SYMBOLS = {
     nightmarefuel  = "Nightmare Fuel",
  }
 
+ local function GetGemName(inst)
+    local swap, gemSymbol = inst.AnimState:GetSymbolOverride("swap_gem")
+    local gemPrefab = gemSymbol and GEM_SYMBOLS[tostring(gemSymbol)] or "nightmarefuel"
+    return GEM_NAMES[gemPrefab]
+end
+
+for i,prefab in ipairs(ruinsstatues) do
+    AddPrefabPostInit(prefab, function(inst)
+        if ruins_statue_config then
+            local function DisplayNameFn(inst)
+                return GetGemName(inst).." Ancient Statue"
+            end
+            inst:DoTaskInTime(0, function()
+                inst.nameoverride = nil
+                inst.displaynamefn = DisplayNameFn
+            end)
+        end
+    end)
+end
+
+----------- ARCHIVE FOUNTAINS -----------
+
  local LIQUID_SYMBOLS = {
     ["2890243809"] = "resonator",
     ["2890243810"]  = "dust",
@@ -30,36 +57,19 @@ local GEM_SYMBOLS = {
     turfstation = "Terra Firma Tamper"
  }
 
-local function GetGemName(inst)
-    local swap, gemSymbol = inst.AnimState:GetSymbolOverride("swap_gem")
-    local gemPrefab = gemSymbol and GEM_SYMBOLS[tostring(gemSymbol)] or "nightmarefuel"
-    return GEM_NAMES[gemPrefab]
-end
-
 local function GetKnowledgeLiquid(inst)
     local liquidSymbol, swap = inst.AnimState:GetSymbolOverride("tank_liquid")
     local liquidPrefab = liquidSymbol and LIQUID_SYMBOLS[tostring(liquidSymbol)] or "turfstation"
     return LIQUID_NAMES[liquidPrefab]
 end
 
-
- for i,prefab in ipairs(ruinsstatues) do
-    AddPrefabPostInit(prefab, function(inst)
+AddPrefabPostInit("archive_lockbox_dispencer", function(inst)
+    if archive_fountain_config then
         local function DisplayNameFn(inst)
-            return GetGemName(inst).." Ancient Statue"
+            return GetKnowledgeLiquid(inst).." Knowledge Fountain"
         end
         inst:DoTaskInTime(0, function()
-            inst.nameoverride = nil
             inst.displaynamefn = DisplayNameFn
         end)
-    end)
-end
-
-AddPrefabPostInit("archive_lockbox_dispencer", function(inst)
-    local function DisplayNameFn(inst)
-        return GetKnowledgeLiquid(inst).." Knowledge Fountain"
     end
-    inst:DoTaskInTime(0, function()
-        inst.displaynamefn = DisplayNameFn
-    end)
 end)
